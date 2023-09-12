@@ -9,7 +9,7 @@ const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
 
 const Home = () => {
     const [weatherData, setWeatherData] = useState(null);
-    const [city, setCity] = useState("kolkata");
+    const [city, setCity] = useState(null);
     const [error, setError] = useState(null);
     const API_KEY = apiKey;
 
