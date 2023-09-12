@@ -13,7 +13,7 @@ const Home = () => {
     const [error, setError] = useState(null);
     const API_KEY = apiKey;
 
-    const url = `${baseUrl}${city}&units=metric&appid=${API_KEY}`;
+    const url = `${baseUrl}q=${city}&units=metric&appid=${API_KEY}`;
 
     const getWeather = async () => {
         try {
@@ -26,7 +26,30 @@ const Home = () => {
     };
 
     useEffect(() => {
-        getWeather();
+        // Checking geolocation support
+        if ("geolocation" in navigator) {
+            try {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const { latitude, longitude } = position.coords;
+                    const currenturl = `${baseUrl}lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`;
+
+                    // Fetching weather data based on current location
+                    try {
+                        const response = await axios.get(currenturl);
+                        setWeatherData(response.data);
+                        setError(null);
+                    } catch (error) {
+                        setError("Error fetching weather data");
+                        console.error("Error fetching weather data:", error);
+                    }
+                });
+            } catch (error) {
+                setError("Error getting location");
+                console.error("Error getting location:", error);
+            }
+        } else {
+            setError("Geolocation is not available");
+        }
     }, []);
     return (
         <section className="w-screen h-[100vh] bg_gradient flex_center">
