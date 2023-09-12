@@ -13,7 +13,7 @@ const Home = () => {
     const [error, setError] = useState(null);
     const API_KEY = apiKey;
 
-    const url = `${baseUrl}${city}&units=metric&appid=${API_KEY}`;
+    const url = `${baseUrl}q=${city}&units=metric&appid=${API_KEY}`;
 
     const getWeather = async () => {
         try {
